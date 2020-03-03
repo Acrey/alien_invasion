@@ -33,7 +33,8 @@ class AlienInvasion():
             # Отслеживание событий клавиатуры и мыши.
             self._check_events()
             self.ship.update()
-            self._update_bullets()            
+            self._update_bullets()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -74,6 +75,24 @@ class AlienInvasion():
         for bullet in self.bullets.copy():
             if bullet.rect.bottom < 0:
                 self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+        """Обновляет позиции пришельцев"""
+        self._check_fleet_edges()
+        self.aliens.update()
+
+    def _check_fleet_edges(self):
+        """Проверяет достижение пришельцем границ экрана"""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Опускает флот и меняет его направлени"""
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.alien_drop_speed
+        self.settings.alien_direction *= -1
 
     def _create_fleet(self):
         """Создает флот пришельцев"""
