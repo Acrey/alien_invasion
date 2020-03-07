@@ -93,6 +93,8 @@ class AlienInvasion():
     def _update_aliens(self):
         """Обновляет позиции пришельцев"""
         self._check_fleet_edges()
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
         self.aliens.update()
 
     def _check_fleet_edges(self):
@@ -107,6 +109,12 @@ class AlienInvasion():
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.alien_drop_speed
         self.settings.alien_direction *= -1
+
+    def _ship_hit(self):
+        self.bullets.empty()
+        self.aliens.empty()
+        self._create_fleet()
+        self.ship.move_center()
 
     def _create_fleet(self):
         """Создает флот пришельцев"""

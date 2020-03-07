@@ -20,5 +20,5 @@ class Settings:
 
         # Параметры пришельца
         self.alien_speed = 1.0
-        self.alien_drop_speed = 10
+        self.alien_drop_speed = 100
         self.alien_direction = 1
