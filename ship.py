@@ -36,6 +36,6 @@ class Ship:
 
         self.rect.x = self.x
 
-    def move_center(self):
+    def center_ship(self):
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
