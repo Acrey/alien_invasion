@@ -169,11 +169,16 @@ class AlienInvasion():
             self.scoreboard.check_high_score()
 
         if not self.aliens:
-            self.bullets.empty()
-            self._create_fleet()
-            self.settings.increase_speed()
-            self.stats.level += 1
-            self.scoreboard.prep_level()
+            self._start_new_level()
+
+    def _start_new_level(self):
+        """Подготавливает сцену для нового уровня."""
+
+        self.bullets.empty()
+        self._create_fleet()
+        self.settings.increase_speed()
+        self.stats.level += 1
+        self.scoreboard.prep_level()
 
     def _update_aliens(self):
         """Обновляет позиции пришельцев."""
