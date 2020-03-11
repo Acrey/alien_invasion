@@ -59,6 +59,26 @@ class AlienInvasion():
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
 
+    def _check_keydown_events(self, event):
+        """Обрабатывает нажатия клавишь на клавиатуре."""
+
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True
+        elif event.key == pygame.K_q:
+            sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
+        elif event.key == pygame.K_p:
+            self._start_game()
+
+    def _fire_bullet(self):
+        """Создание нового снаряла и включение его в группу bullets."""
+
+        if len(self.bullets) < self.settings.bullet_allowed:
+            self.bullets.add(Bullet(self))
+
     def _check_play_button(self, mouse_pos):
         """Запускает новую игру при нажатии Play."""
 
@@ -79,20 +99,6 @@ class AlienInvasion():
             self.ship.center_ship()
             pygame.mouse.set_visible(False)
 
-    def _check_keydown_events(self, event):
-        """Обрабатывает нажатия клавишь на клавиатуре."""
-
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True
-        elif event.key == pygame.K_q:
-            sys.exit()
-        elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
-        elif event.key == pygame.K_p:
-            self._start_game()
-
     def _check_keyup_events(self, event):
         """Обрабатывает отпускание клавишь клавиатуры."""
 
@@ -100,12 +106,6 @@ class AlienInvasion():
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
-
-    def _fire_bullet(self):
-        """Создание нового снаряла и включение его в группу bullets."""
-
-        if len(self.bullets) < self.settings.bullet_allowed:
-            self.bullets.add(Bullet(self))
 
     def _update_bullets(self):
         """Обновялет позиции снарядов и уничтожает старые."""
