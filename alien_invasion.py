@@ -4,10 +4,10 @@ from time import sleep
 import pygame
 
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
-from game_stats import GameStats
 from button import Button
 
 
