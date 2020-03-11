@@ -18,6 +18,8 @@ class Scoreboard():
         self.prep_level()
 
     def prep_score(self):
+        """Форматиурует счет и создает его изображение."""
+
         rounded_score = round(self.stats.score, -1)
         score_str = "{:,}".format(rounded_score)
         self.score_image = self.font.render(score_str, True, self.text_color, self.settings.screen_color)
@@ -26,6 +28,8 @@ class Scoreboard():
         self.score_image_rect.top = 20
 
     def prep_high_score(self):
+        """Форматиурует лучший счет и создает его изображение."""
+
         rounded_high_score = round(self.stats.high_score, -1)
         high_score_str = "{:,}".format(rounded_high_score)
         self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.settings.screen_color)
@@ -34,6 +38,8 @@ class Scoreboard():
         self.high_score_image_rect.top = self.screen_rect.top
 
     def prep_level(self):
+        """Форматиурует уровень и создает его изображение."""
+
         level_str = str(self.stats.level)
         self.level_image = self.font.render(level_str, True, self.text_color, self.settings.screen_color)
         self.level_image_rect = self.level_image.get_rect()
@@ -41,11 +47,15 @@ class Scoreboard():
         self.level_image_rect.top = self.score_image_rect.bottom + 10
 
     def show(self):
+        """Выводит статистику на экран."""
+
         self.screen.blit(self.score_image, self.score_image_rect)
         self.screen.blit(self.high_score_image, self.high_score_image_rect)
         self.screen.blit(self.level_image, self.level_image_rect)
 
     def check_high_score(self):
+        """Проверяет достигнут ли новый лучший счет"""
+
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
