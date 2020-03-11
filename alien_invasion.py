@@ -63,6 +63,7 @@ class AlienInvasion():
             self._start_game()
 
     def _start_game(self):
+        """Запускает игровой процесс."""
         if not self.stats.game_active:
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -73,6 +74,8 @@ class AlienInvasion():
             pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
+        """Обрабатывает нажатия клавишь на клавиатуре."""
+
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
@@ -85,6 +88,8 @@ class AlienInvasion():
             self._start_game()
 
     def _check_keyup_events(self, event):
+        """Обрабатывает отпускание клавишь клавиатуры."""
+
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
@@ -92,11 +97,13 @@ class AlienInvasion():
 
     def _fire_bullet(self):
         """Создание нового снаряла и включение его в группу bullets."""
+
         if len(self.bullets) < self.settings.bullet_allowed:
             self.bullets.add(Bullet(self))
 
     def _update_bullets(self):
         """Обновялет позиции снарядов и уничтожает старые."""
+
         self.bullets.update()
         # Удаления снарядов
         for bullet in self.bullets.copy():
@@ -196,7 +203,7 @@ class AlienInvasion():
     def _update_screen(self):
         """Обновляет экран."""
         # При каждой итерации перерисовывается экран.
-        self.screen.fill(self.settings.bg_color)
+        self.screen.fill(self.settings.screen_color)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
