@@ -60,7 +60,8 @@ class AlienInvasion():
                 self._check_play_button(mouse_pos)
 
     def _check_play_button(self, mouse_pos):
-        """Запускает новую игру при нажатии Play"""
+        """Запускает новую игру при нажатии Play."""
+
         is_button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if is_button_clicked:
             self.settings.initialize_dynamic_settings()
@@ -68,6 +69,7 @@ class AlienInvasion():
 
     def _start_game(self):
         """Запускает игровой процесс."""
+
         if not self.stats.game_active:
             self.stats.reset_stats()
             self.stats.game_active = True
