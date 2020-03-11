@@ -28,6 +28,7 @@ class AlienInvasion():
         pygame.display.set_caption("Alien Invasion")
 
         self.stats = GameStats(self)
+        self.stats.high_score = self._read_high_score()
         self.scoreboard = Scoreboard(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -52,7 +53,7 @@ class AlienInvasion():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                self._exit_game()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -60,6 +61,34 @@ class AlienInvasion():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
+
+    def _exit_game(self):
+        """Сохраняет лучший счет перед закрытием игры."""
+
+        prev_high_score = self._read_high_score()
+        if self.stats.high_score > prev_high_score:
+            self._write_high_score()
+
+        sys.exit()
+
+    def _read_high_score(self):
+        """Считывает лучший счет из файла."""
+
+        try:
+            with open('highscore.txt') as f:
+                prev_high_score = f.read().strip()
+        except FileNotFoundError:
+            return 0
+        else:
+            if not prev_high_score:
+                prev_high_score = 0
+            return int(prev_high_score)
+
+    def _write_high_score(self):
+        """Записывает лучший счет в файл."""
+
+        with open('highscore.txt', 'w') as f:
+            f.write(str(self.stats.high_score))
 
     def _check_keydown_events(self, event):
         """Обрабатывает нажатия клавишь на клавиатуре."""
@@ -69,7 +98,7 @@ class AlienInvasion():
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
-            sys.exit()
+            self._exit_game()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         elif event.key == pygame.K_p:
@@ -95,8 +124,7 @@ class AlienInvasion():
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.stats.game_active = True
-            self.scoreboard.prep_score()
-            self.scoreboard.prep_level()
+            self.scoreboard.prep_images()
 
             self.aliens.empty()
             self.bullets.empty()
@@ -178,6 +206,7 @@ class AlienInvasion():
 
         if self.stats.ships_left > 0:
             self.stats.ships_left -= 1
+            self.scoreboard.prep_ships()
 
             self.bullets.empty()
             self.aliens.empty()
