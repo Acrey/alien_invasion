@@ -86,13 +86,13 @@ class AlienInvasion():
 
         is_button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if is_button_clicked:
-            self.settings.initialize_dynamic_settings()
             self._start_game()
 
     def _start_game(self):
         """Запускает игровой процесс."""
 
         if not self.stats.game_active:
+            self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.stats.game_active = True
             self.scoreboard.prep_score()
